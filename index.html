@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>World Warper | Ludum Dare #30</title>
+	<link rel="stylesheet" type="text/css" href="style.css" media="all" />
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="base.js"></script>
+</head>
+<body>
+	<div id="alerts"></div>
+	<div id="alerts2"></div>
+	<div id="wrapper">
+		<div id="inventory">
+			<b>Inventory:</b><br>
+			<div id="invt1">
+				Wood: <span id="woodqty">0</span><br>
+				Stone: <span id="stoneqty">0</span><br>
+				Iron: <span id="ironqty">0</span><br>
+			</div>
+			<div id="invt2">
+				Gold: <span id="goldqty">0</span><br>
+				Diamond: <span id="diamondqty">0</span><br>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div id="map">
+			<pre class="map"></pre>
+		</div>
+		<div id="help">
+			Explore the world, find the resources to make a portal, teleport to another world. You will need different resources to make a portal in each world<br><br>
+			The worlds will re-generate each time you open this page<br><br>
+			Arrow keys to move, "crash" objects to interact with them
+		</div>
+	</div>
+	<div id="legend">
+		<b>Legend:</b><br>
+		<b>Y</b> = You<br>
+		<b>&bull;</b> = Grass (Walkable)<br>
+		<b>T</b> = Tree<br>
+		<b>C</b> = Crafting table<br>
+		<span style="opacity:0;"><b>C</b> = </span>(You make the portal here)<br>
+		<b>P</b> = Portal<br>
+		<b>B</b> = Bedrock<br>
+		<b>A</b> = Cave Opening<br>
+		<b>H</b> = Chest<br>
+		<b>&lt;empty></b> and <b>~</b> = Emptiness<br><br>
+		<b>Legend: (cave only)</b><br>
+		<b>S</b> = Stone<br>
+		<b>I</b> = Iron<br>
+		<b>D</b> = Diamond<br>
+		<b>&lt;empty></b> = Unknown /<br>
+		<span style="opacity:0;"><b>&lt;empty></b> = </span>walkable area<br>
+	</div>
+	<div id="ingredients">
+		<b>What you need to craft the portal:</b><br>
+		<div id="portalingredients">
+			<b>0</b> Wood
+		</div><br>
+		Currently you are in <b>World #<span class="worldnumber">1</span></b><br>
+		x: <span id="xpos"></span><br>
+		y: <span id="ypos"></span><br><br>
+		<input type="button" value="Reset game" onclick="resetgame()"><br>
+		Game autosaves each 5 seconds
+	</div>
+</body>
+</html>
