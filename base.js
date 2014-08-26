@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	$("body").css("height",$(window).height());
-	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: - Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>bug in world #6<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span> - Fixed world not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>generate correctly<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>when refreshing page");
+	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: - Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>bug in world #6<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span> - Fixed world not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>generate correctly<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>when refreshing page<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed player not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>spawn in correct place");
 	
 	world=[];
 	cave=[];
@@ -32,6 +32,9 @@ $(document).ready(function() {
 		decoded=atob(localStorage.worldwarpergamesave).split("|");
 		worldnum=decoded[0];
 		generateWorld(worldnum);
+		playerx=Math.round((worldsize+40)/2);
+		if(worldnum==7)playerx=21;
+		playery=Math.round((worldsize+40)/2);
 		pickaxe=decoded[1];
 		items[0].owned=decoded[2];
 		items[1].owned=decoded[3];
