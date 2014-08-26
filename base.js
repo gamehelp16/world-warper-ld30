@@ -2,6 +2,7 @@
 $(document).ready(function() {
 
 	$("body").css("height",$(window).height());
+	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span>bug in world #6");
 	
 	world=[];
 	cave=[];
@@ -98,10 +99,6 @@ $(document).ready(function() {
 				}
 			}
 		}
-	});
-	
-	$(".c").click(function() {	
-		collision(22,22);
 	});
 
 });
@@ -275,7 +272,7 @@ function generateWorld(num) {
 	
 	world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].type="crafting";
 	world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii="C";
-	if(num==6)world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii="<span class='c'>C</span>";
+	if(num==6)world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii="<span onclick='collision(22,22)'>C</span>";
 	
 	if(num==2 || num==3) {
 		world[21][20].type="cave";
