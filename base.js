@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	$("body").css("height",$(window).height());
-	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: - Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>bug in world #6<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span> - Fixed world not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>generate correctly<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>when refreshing page<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed player not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>spawn in correct place");
+	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: - Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>bug in world #6<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span> - Fixed world not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>generate correctly<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>when refreshing page<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed player not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>spawn in correct place<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed bug can't mine<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>diamond (my bad)");
 	
 	world=[];
 	cave=[];
@@ -486,6 +486,9 @@ function collision(x,y) {
 		else if(pickaxe==1 && worldnum==3) {
 			otherstuffs='<br><input type="button" onclick="craft(\'stonepick\')" value="Craft a stone pickaxe"> (10 stone)';
 		}
+		else if(pickaxe==2 && worldnum==7) {
+			otherstuffs='<br><input type="button" onclick="craft(\'ironpick\')" value="Craft an iron pickaxe"> (10 iron)';
+		}
 		makealert('crafting','Crafting table','This is your crafting table, you can craft the portal here<br><br><input type="button" onclick="makeportal()" value="Craft a portal">'+otherstuffs);
 	}
 	else if(type=="bedrock") {
@@ -534,6 +537,14 @@ function collisioncave(x,y) {
 			makealert2('iron','Iron','Iron! But it seems that you can\'t mine it, better make a stone pickaxe first');
 		}
 	}
+	else if(type=="diamond") {
+		if(pickaxe>=3) {
+			makealert2('diamond','Diamond','Diamond! Mine it?<br><br><input type="button" onclick="mine(5,'+x+','+y+')" value="Mine the diamond">');
+		}
+		else {
+			makealert2('diamond','Diamond','Diamond! But it seems that you can\'t mine it, better make an iron pickaxe first');
+		}
+	}
 }
 
 function enterportal() {
@@ -553,7 +564,7 @@ function mine(type,x,y) {
 		world[y][x].ascii="&bull;";
 		closemessage();
 	}
-	else if(type==1 || type==2) {
+	else if(type==1 || type==2 || type==5) {
 		cave[y][x].type="walkable";
 		cave[y][x].ascii="&nbsp;";
 		closemessage2();
@@ -574,6 +585,13 @@ function craft(what) {
 			items[1].owned-=10;
 			pickaxe=2;
 			makealert('craft-stonepick','Stone Pickaxe','You successfully crafted a stone pickaxe! Now you can mine iron!');
+		}
+	}
+	else if(what=="ironpick") {
+		if(items[2].owned>=10) {
+			items[2].owned-=10;
+			pickaxe=3;
+			makealert('craft-ironpick','Iron Pickaxe','You successfully crafted an iron pickaxe! Now you can mine diamond!');
 		}
 	}
 	update();
