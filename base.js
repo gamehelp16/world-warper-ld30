@@ -1,9 +1,6 @@
 
 $(document).ready(function() {
 
-	$("body").css("height",$(window).height());
-	$("#ingredients").append("<br><br><b>26 Aug 2014</b>: - Fixed cannot craft<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>bug in world #6<br><span style='opacity:0;'><b>26 Aug 2014</b>: </span> - Fixed world not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>generate correctly<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>when refreshing page<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed player not<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>spawn in correct place<br><span style='opacity:0;'><b>26 Aug 2014</b>:</span> - Fixed bug can't mine<br><span style='opacity:0;'><b>26 Aug 2014</b>: - </span>diamond (my bad)");
-	
 	world=[];
 	cave=[];
 	playerxcave=30;
@@ -11,7 +8,7 @@ $(document).ready(function() {
 	worldnum=1; //1
 	insidecave=false;
 	pickaxe=0; // 0 = none, 1 = wood, 2 = stone
-	
+
 	items=[];
 	items.push({"name":"wood", "owned":0}); //0
 	items.push({"name":"stone", "owned":0}); //1
@@ -19,16 +16,16 @@ $(document).ready(function() {
 	items.push({"name":"gold", "owned":0}); //3
 	items.push({"name":"bedrock!?", "owned":0}); //4
 	items.push({"name":"diamond", "owned":0}); //5
-	
+
 	portalingredients="0,10";
-	
+
 	generateWorld(worldnum);
 	playerx=Math.round((worldsize+40)/2);
 	if(worldnum==7)playerx=21;
 	playery=Math.round((worldsize+40)/2);
 	update();
-	
-	if(typeof localStorage.worldwarpergamesave!=="undefined" && localStorage.worldwarpergamesave!="") {
+
+	if(localStorage.worldwarpergamesave) {
 		decoded=atob(localStorage.worldwarpergamesave).split("|");
 		worldnum=decoded[0];
 		generateWorld(worldnum);
@@ -44,11 +41,11 @@ $(document).ready(function() {
 		items[5].owned=decoded[7];
 		update();
 	}
-	
+
 	setInterval(function() {
 		localStorage.worldwarpergamesave=btoa(worldnum+"|"+pickaxe+"|"+items[0].owned+"|"+items[1].owned+"|"+items[2].owned+"|"+items[3].owned+"|"+items[4].owned+"|"+items[5].owned);
 	},5000);
-	
+
 	$(document).keydown(function(e) {
 		kc=e.keyCode;
 		if(!insidecave) {
@@ -133,7 +130,7 @@ function closemessage2() {
 	setTimeout(function(){$(".alert2").remove();},200);
 }
 
-function update() { 
+function update() {
 	if(items[4].owned>1)alert('Hey, cheater! >:C');
 	drawWorld();
 	if(insidecave)drawCave();
@@ -168,7 +165,7 @@ function makeportal() {
 		if(items[b[0]].owned>=b[1]) {
 			if(i==a.length-1) {
 				makealert('craft-portal','Crafting success','You successfully crafted the portal! Go there and teleport to the next world!');
-				
+
 				if(worldnum!=7) {
 					world[Math.round((worldsize+40)/2-2)][Math.round((worldsize+40)/2-2)].type="portal";
 					world[Math.round((worldsize+40)/2-2)][Math.round((worldsize+40)/2-2)].ascii="P";
@@ -178,7 +175,7 @@ function makeportal() {
 					world[21][21].ascii="P";
 				}
 				if(worldnum==6)world[Math.round((worldsize+40)/2-2)][Math.round((worldsize+40)/2-2)].ascii="<span onclick='collision(18,18)'>P</span>";
-				
+
 				for(j=0;j<a.length;j++) {
 					c=a[j].split(",");
 					items[c[0]].owned-=c[1];
@@ -222,13 +219,13 @@ function generateWorld(num) {
 	else if(num==8) {
 		worldsize=0;
 	}
-	
+
 	for(i=1;i<=20;i++) {
 		they=[];
 		they=generateNone(they,worldsize+40);
 		world.push(they);
 	}
-	
+
 	they=[];
 	they=generateNone(they,19);
 	for(j=9;j<worldsize+11;j++) {
@@ -236,7 +233,7 @@ function generateWorld(num) {
 	}
 	they=generateNone(they,20);
 	world.push(they);
-	
+
 	for(i=1;i<=worldsize;i++) {
 		they=[];
 		they=generateNone(they,19);
@@ -259,7 +256,7 @@ function generateWorld(num) {
 		they=generateNone(they,19);
 		world.push(they);
 	}
-	
+
 	they=[];
 	they=generateNone(they,19);
 	for(j=9;j<worldsize+11;j++) {
@@ -267,27 +264,27 @@ function generateWorld(num) {
 	}
 	they=generateNone(they,20);
 	world.push(they);
-	
+
 	for(i=1;i<=20;i++) {
 		they=[];
 		they=generateNone(they,worldsize+40);
 		world.push(they);
 	}
-	
+
 	world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].type="crafting";
 	world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii="C";
 	if(num==6)world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii="<span onclick='collision(22,22)'>C</span>";
-	
+
 	if(num==2 || num==3) {
 		world[21][20].type="cave";
 		world[21][20].ascii="A";
 	}
-	
+
 	if(num==4) {
 		world[20+worldsize][18+worldsize].type="chest";
 		world[20+worldsize][18+worldsize].ascii="H";
 	}
-	
+
 	if(num==6) {
 		string="KEYBOARDS ARE";
 		string=string.split("");
@@ -305,7 +302,7 @@ function generateWorld(num) {
 			world[26][14+i].ascii=string[i];
 		}
 	}
-	
+
 	if(num==6 || num==8) {
 		world[21][19].ascii=" ";
 		world[20][19].ascii=" ";
@@ -314,7 +311,7 @@ function generateWorld(num) {
 		world[20][19].type="none";
 		world[21][20].type="none";
 	}
-	
+
 	if(num==7) {
 		world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].type="none";
 		world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii=" ";
@@ -323,14 +320,14 @@ function generateWorld(num) {
 		world[22][22].type="cave";
 		world[22][22].ascii="A";
 	}
-	
+
 	if(num==8) {
 		world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].type="none";
 		world[Math.round((worldsize+40)/2+2)][Math.round((worldsize+40)/2+2)].ascii=" ";
 		world[21][20].type="chest";
 		world[21][20].ascii="H";
 	}
-	
+
 }
 
 function generateCave(worldsize) {
@@ -342,7 +339,7 @@ function generateCave(worldsize) {
 		they=generateNone(they,worldsize+40);
 		cave.push(they);
 	}
-	
+
 	they=[];
 	they=generateNone(they,20);
 	for(j=9;j<worldsize+11;j++) {
@@ -350,7 +347,7 @@ function generateCave(worldsize) {
 	}
 	they=generateNone(they,20);
 	cave.push(they);
-	
+
 	ironnum=0;
 	diamondnum=0;
 	for(i=1;i<=worldsize;i++) {
@@ -378,7 +375,7 @@ function generateCave(worldsize) {
 		they=generateNone(they,20);
 		cave.push(they);
 	}
-	
+
 	while(ironnum<10) {
 		for(i=21;i<=worldsize+20;i++) {
 			for(j=21;j<=worldsize+20;j++) {
@@ -392,7 +389,7 @@ function generateCave(worldsize) {
 			}
 		}
 	}
-	
+
 	if(worldnum==7) {
 		while(diamondnum<1) {
 			for(i=21;i<=25;i++) {for(j=21;j<=25;j++) {if(j!=1 && j!=worldsize) {if(Math.random()<0.001) {cave[i][j].type="diamond";cave[i][j].ascii="D";diamondnum++;}}}}
@@ -401,7 +398,7 @@ function generateCave(worldsize) {
 			for(i=25;i<=21;i++) {for(j=20;j<=25;j++) {if(j!=1 && j!=worldsize) {if(Math.random()<0.001) {cave[i][j].type="diamond";cave[i][j].ascii="D";diamondnum++;}}}}
 		}
 	}
-	
+
 	they=[];
 	they=generateNone(they,20);
 	for(j=9;j<worldsize+11;j++) {
@@ -409,20 +406,20 @@ function generateCave(worldsize) {
 	}
 	they=generateNone(they,20);
 	cave.push(they);
-	
+
 	for(i=1;i<=20;i++) {
 		they=[];
 		they=generateNone(they,worldsize+40);
 		cave.push(they);
 	}
-	
+
 	for(i=29;i<=31;i++) {
 		for(j=25;j<=35;j++) {
 			cave[i][j].type="walkable";
 			cave[i][j].ascii=" ";
 		}
 	}
-	
+
 }
 
 function drawWorld() {
@@ -632,11 +629,19 @@ function resetgame() {
 			if(three) {
 				four=confirm("Last confirmation, are you really really sure?");
 				if(four) {
-					localStorage.clear();
+					localStorage.worldwarpergamesave='';
 					alert("Ok, your progress has been reset, the page will be refreshed");
 					location.reload();
 				}
 			}
 		}
 	}
+}
+
+function changelog() {
+	makealert('changelog','Changelog',"<b>10 Dec 2021:</b><br>- Styling improvements and other minor changes<br><br><b>26 Aug 2014:</b><br>- Fixed cannot craft bug in world #6<br>- Fixed world not generate correctly when refreshing page<br>- Fixed player not spawn in correct place<br>- Fixed bug can't mine diamond (my bad)");
+}
+
+function othergames() {
+	makealert('other-games','Other games',"If you enjoyed this game you can check out several other games I have made in the past:<ul><li><a href='https://gamehelp16.github.io/thegoldfactory/' target='_blank'>The Gold Factory</a></li><li><a href='https://gamehelp16.github.io/chickens/' target='_blank'>Chickens!</a></li><li><a href='https://gamehelp16.github.io/the-unconventional-weapon/' target='_blank'>The Unconventional Weapon</a></li><li><a href='https://gamehelp16.github.io/material-warrior/' target='_blank'>Material Warrior</a></li><li><a href='https://gamehelp16.github.io/which-subreddit/' target='_blank'>Which Subreddit?</a></li></ul>");
 }
